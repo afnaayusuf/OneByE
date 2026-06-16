@@ -122,3 +122,28 @@
     white-space: pre;
   }
 }
+
+@keyframes caretSweep {
+  0% {
+    left: 0%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+.animate-caret {
+  position: relative;
+  display: inline-block;
+}
+
+.animate-caret::before {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 0;
+  width: 2px;
+  height: calc(100% + 8px);
+  background-color: black;
+  animation: caretSweep 3s ease-in-out 1 forwards;
+}

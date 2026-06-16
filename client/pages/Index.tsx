@@ -96,9 +96,11 @@ export default function Index() {
     <div className="min-h-screen bg-white p-8 md:p-12 font-dm-sans relative overflow-hidden flex flex-col">
       {/* Main content wrapper */}
       <div className="max-w-7xl mx-auto w-full">
-        <h1 className="text-5xl md:text-6xl font-bold mt-8 mb-24 text-black text-center">
-          One<span className="font-thin italic">By</span> E.
-        </h1>
+        <div className="flex justify-center">
+          <h1 className="text-5xl md:text-6xl font-bold mt-8 mb-24 text-black animate-caret">
+            One<span className="font-thin italic">By</span> E.
+          </h1>
+        </div>
 
         {/* Metrics Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16 mt-16">
