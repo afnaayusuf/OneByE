@@ -122,26 +122,3 @@
     white-space: pre;
   }
 }
-
-@keyframes typing {
-  0% {
-    width: 0;
-    border-right: 3px solid black;
-  }
-  90% {
-    width: 100%;
-    border-right: 3px solid black;
-  }
-  100% {
-    width: 100%;
-    border-right: none;
-  }
-}
-
-.animate-typing {
-  display: inline-block;
-  width: 0;
-  overflow: hidden;
-  white-space: nowrap;
-  animation: typing 3s steps(30, end) 1;
-}

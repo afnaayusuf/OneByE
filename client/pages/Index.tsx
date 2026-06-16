@@ -96,7 +96,7 @@ export default function Index() {
     <div className="min-h-screen bg-white p-8 md:p-12 font-dm-sans relative overflow-hidden flex flex-col">
       {/* Main content wrapper */}
       <div className="max-w-7xl mx-auto w-full">
-        <h1 className="text-5xl md:text-6xl font-bold mt-8 mb-24 text-black text-center animate-typing">
+        <h1 className="text-5xl md:text-6xl font-bold mt-8 mb-24 text-black text-center">
           One<span className="font-thin italic">By</span> E.
         </h1>
 
