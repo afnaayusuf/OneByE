@@ -100,25 +100,30 @@ export default function Index() {
         </h1>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16 mt-16">
-          {metrics.map((metric) => (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16 mt-16 group/grid">
+          {metrics.map((metric, index) => (
             <div
               key={metric.id}
-              className="bg-[#DADADA] rounded-2xl p-8 flex flex-col h-80 hover:opacity-90 transition-opacity justify-between text-center"
+              className={`bg-[#DADADA] rounded-2xl p-8 flex flex-col h-80 justify-between text-center transition-all duration-300 ease-out hover:bg-black hover:text-white cursor-pointer group
+              ${
+                index % 2 === 0
+                  ? "group-hover/grid:translate-x-2"
+                  : "group-hover/grid:translate-x-2"
+              }`}
             >
               {/* Label */}
-              <h2 className="text-2xl font-medium text-black">
+              <h2 className="text-2xl font-medium transition-colors duration-300 group-hover:text-white">
                 {metric.label}
               </h2>
 
               {/* Value - centered */}
               <div className="flex items-center justify-center">
-                <div className="inline-block border border-black rounded-lg px-4 py-2">
-                  <span className="text-2xl font-bold text-black">
+                <div className="inline-block border rounded-lg px-4 py-2 border-black group-hover:border-white transition-colors duration-300">
+                  <span className="text-2xl font-bold transition-colors duration-300 group-hover:text-white">
                     {metric.value}
                   </span>
                   {metric.unit && (
-                    <span className="text-lg font-medium text-black ml-1">
+                    <span className="text-lg font-medium ml-1 transition-colors duration-300 group-hover:text-white">
                       {metric.unit}
                     </span>
                   )}
@@ -126,7 +131,7 @@ export default function Index() {
               </div>
 
               {/* Description only */}
-              <div className="text-xs text-gray-700 px-2">
+              <div className="text-xs px-2 text-gray-700 group-hover:text-gray-200 transition-colors duration-300">
                 <p>{metric.description}</p>
               </div>
             </div>
