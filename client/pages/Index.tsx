@@ -100,19 +100,19 @@ export default function Index() {
         </h1>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16 mt-8">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16 mt-16">
           {metrics.map((metric) => (
             <div
               key={metric.id}
-              className="bg-[#DADADA] rounded-2xl p-8 flex flex-col h-64 hover:opacity-90 transition-opacity items-center justify-center text-center"
+              className="bg-[#DADADA] rounded-2xl p-8 flex flex-col h-80 hover:opacity-90 transition-opacity items-center justify-center text-center"
             >
               {/* Label */}
-              <h2 className="text-base font-medium text-black mb-8">
+              <h2 className="text-base font-medium text-black mb-12">
                 {metric.label}
               </h2>
 
               {/* Value */}
-              <div className="mb-8">
+              <div className="mb-12">
                 <div className="inline-block border border-black rounded-lg px-4 py-2">
                   <span className="text-2xl font-bold text-black">
                     {metric.value}
@@ -134,7 +134,7 @@ export default function Index() {
         </div>
 
         {/* Refresh Button */}
-        <div className="flex gap-4 mt-32 justify-center">
+        <div className="flex gap-4 mt-40 justify-center">
           <button
             onClick={fetchMetrics}
             disabled={loading}
