@@ -96,41 +96,38 @@ export default function Index() {
       {/* Main content wrapper */}
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl md:text-5xl font-bold mb-12 text-black">
-          OneByE.
+          One<span className="font-normal">By</span>E.
         </h1>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16">
           {metrics.map((metric) => (
             <div
               key={metric.id}
-              className="bg-gray-100 rounded-2xl p-8 flex flex-col h-full hover:bg-gray-150 transition-colors"
+              className="bg-gray-100 rounded-2xl p-6 flex flex-col h-full hover:bg-gray-150 transition-colors"
             >
               {/* Label */}
-              <h2 className="text-lg font-medium text-black mb-6">
+              <h2 className="text-base font-medium text-black mb-4">
                 {metric.label}
               </h2>
 
               {/* Value */}
               <div className="mb-auto">
-                <div className="inline-block border-2 border-black rounded-xl px-6 py-3 mb-6">
-                  <span className="text-3xl font-bold text-black">
+                <div className="inline-block border-2 border-black rounded-lg px-4 py-2 mb-4">
+                  <span className="text-2xl font-bold text-black">
                     {metric.value}
                   </span>
                   {metric.unit && (
-                    <span className="text-xl font-medium text-black ml-1">
+                    <span className="text-lg font-medium text-black ml-1">
                       {metric.unit}
                     </span>
                   )}
                 </div>
               </div>
 
-              {/* Description and API endpoint */}
-              <div className="text-xs text-gray-600 space-y-2">
+              {/* Description only */}
+              <div className="text-xs text-gray-600">
                 <p>{metric.description}</p>
-                <p className="text-gray-500 italic">
-                  Endpoint: {metric.apiEndpoint}
-                </p>
               </div>
             </div>
           ))}
