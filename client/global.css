@@ -144,10 +144,14 @@
 .animate-caret {
   position: relative;
   display: inline-block;
-  animation: typeText 3s steps(20, end) 1 forwards;
+  cursor: pointer;
 }
 
-.animate-caret::after {
+.animate-caret.play {
+  animation: typeText 1.5s linear 1 forwards;
+}
+
+.animate-caret.play::after {
   content: '';
   position: absolute;
   top: -2px;
@@ -155,5 +159,5 @@
   width: 12px;
   height: calc(100% + 4px);
   background-color: black;
-  animation: blockCaret 3s steps(20, end) 1 forwards;
+  animation: blockCaret 1.5s linear 1 forwards;
 }

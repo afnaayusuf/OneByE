@@ -11,6 +11,14 @@ interface Metric {
 
 export default function Index() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [logoPlayAnimation, setLogoPlayAnimation] = useState(true);
+
+  const handleLogoHover = () => {
+    setLogoPlayAnimation(false);
+    // Trigger animation restart
+    setTimeout(() => setLogoPlayAnimation(true), 10);
+  };
+
   const [metrics, setMetrics] = useState<Metric[]>([
     {
       id: "volume",
@@ -97,7 +105,10 @@ export default function Index() {
       {/* Main content wrapper */}
       <div className="max-w-7xl mx-auto w-full">
         <div className="flex justify-center">
-          <h1 className="text-5xl md:text-6xl font-bold mt-8 mb-24 text-black animate-caret">
+          <h1
+            className={`text-5xl md:text-6xl font-bold mt-8 mb-24 text-black animate-caret ${logoPlayAnimation ? "play" : ""}`}
+            onMouseEnter={handleLogoHover}
+          >
             One<span className="font-thin italic">By</span> E.
           </h1>
         </div>
