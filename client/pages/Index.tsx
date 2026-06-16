@@ -95,7 +95,7 @@ export default function Index() {
     <div className="min-h-screen bg-white p-8 md:p-12 font-dm-sans relative overflow-hidden flex flex-col">
       {/* Main content wrapper */}
       <div className="max-w-7xl mx-auto w-full">
-        <h1 className="text-5xl md:text-6xl font-bold mt-8 mb-24 text-black text-center animate-typing">
+        <h1 className="text-5xl md:text-6xl font-bold mt-8 mb-24 text-black text-center">
           One<span className="font-thin italic">By</span> E.
         </h1>
 
@@ -107,8 +107,8 @@ export default function Index() {
               className={`bg-[#DADADA] rounded-2xl p-8 flex flex-col h-80 justify-between text-center transition-all duration-300 ease-out hover:bg-black hover:text-white cursor-pointer group
               ${
                 index % 2 === 0
-                  ? "group-hover/grid:translate-x-2"
-                  : "group-hover/grid:translate-x-2"
+                  ? "group-hover:translate-x-1"
+                  : "group-hover:translate-x-1"
               }`}
             >
               {/* Label */}
