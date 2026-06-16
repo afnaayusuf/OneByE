@@ -1,61 +1,160 @@
-import { DemoResponse } from "@shared/api";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+
+interface Metric {
+  id: string;
+  label: string;
+  value: number | string;
+  unit: string;
+  description: string;
+  apiEndpoint: string;
+}
 
 export default function Index() {
-  const [exampleFromServer, setExampleFromServer] = useState("");
-  // Fetch users on component mount
-  useEffect(() => {
-    fetchDemo();
-  }, []);
+  const [metrics, setMetrics] = useState<Metric[]>([
+    {
+      id: "volume",
+      label: "volume",
+      value: 57,
+      unit: "",
+      description: "*Arbitrary calibrated units",
+      apiEndpoint: "/api/metrics/volume",
+    },
+    {
+      id: "pressure",
+      label: "pressure",
+      value: 13.4,
+      unit: "",
+      description: "*Dimensionless (0–20 scale)",
+      apiEndpoint: "/api/metrics/pressure",
+    },
+    {
+      id: "vibration",
+      label: "vibration",
+      value: 72.6,
+      unit: "%",
+      description: "% (0–100%)",
+      apiEndpoint: "/api/metrics/vibration",
+    },
+    {
+      id: "battery",
+      label: "battery",
+      value: 84,
+      unit: "%",
+      description: "% (0–100%)",
+      apiEndpoint: "/api/metrics/battery",
+    },
+    {
+      id: "network",
+      label: "network",
+      value: 23,
+      unit: "",
+      description: "*RSSI (0–31)",
+      apiEndpoint: "/api/metrics/network",
+    },
+    {
+      id: "gas",
+      label: "gas",
+      value: 1380,
+      unit: "",
+      description: "*Raw ADC (0–4095)",
+      apiEndpoint: "/api/metrics/gas",
+    },
+  ]);
 
-  // Example of how to fetch data from the server (if needed)
-  const fetchDemo = async () => {
+  const [loading, setLoading] = useState(false);
+
+  // Fetch metrics from API endpoints
+  const fetchMetrics = async () => {
+    setLoading(true);
     try {
-      const response = await fetch("/api/demo");
-      const data = (await response.json()) as DemoResponse;
-      setExampleFromServer(data.message);
-    } catch (error) {
-      console.error("Error fetching hello:", error);
+      const updatedMetrics = await Promise.all(
+        metrics.map(async (metric) => {
+          try {
+            const response = await fetch(metric.apiEndpoint);
+            if (response.ok) {
+              const data = await response.json();
+              return { ...metric, value: data.value };
+            }
+          } catch {
+            // Keep original value if fetch fails
+          }
+          return metric;
+        })
+      );
+      setMetrics(updatedMetrics);
+    } finally {
+      setLoading(false);
     }
   };
 
+  useEffect(() => {
+    fetchMetrics();
+  }, []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200">
-      <div className="text-center">
-        {/* TODO: FUSION_GENERATION_APP_PLACEHOLDER replace everything here with the actual app! */}
-        <h1 className="text-2xl font-semibold text-slate-800 flex items-center justify-center gap-3">
-          <svg
-            className="animate-spin h-8 w-8 text-slate-400"
-            viewBox="0 0 50 50"
-          >
-            <circle
-              className="opacity-30"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-            />
-            <circle
-              className="text-slate-600"
-              cx="25"
-              cy="25"
-              r="20"
-              stroke="currentColor"
-              strokeWidth="5"
-              fill="none"
-              strokeDasharray="100"
-              strokeDashoffset="75"
-            />
-          </svg>
-          Generating your app...
+    <div className="min-h-screen bg-white p-8 md:p-12 font-dm-sans relative overflow-hidden">
+      {/* Main content wrapper */}
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-4xl md:text-5xl font-bold mb-12 text-black">
+          OneByE.
         </h1>
-        <p className="mt-4 text-slate-600 max-w-md">
-          Watch the chat on the left for updates that might need your attention
-          to finish generating
-        </p>
-        <p className="mt-4 hidden max-w-md">{exampleFromServer}</p>
+
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16">
+          {metrics.map((metric) => (
+            <div
+              key={metric.id}
+              className="bg-gray-100 rounded-2xl p-8 flex flex-col h-full hover:bg-gray-150 transition-colors"
+            >
+              {/* Label */}
+              <h2 className="text-lg font-medium text-black mb-6">
+                {metric.label}
+              </h2>
+
+              {/* Value */}
+              <div className="mb-auto">
+                <div className="inline-block border-2 border-black rounded-xl px-6 py-3 mb-6">
+                  <span className="text-3xl font-bold text-black">
+                    {metric.value}
+                  </span>
+                  {metric.unit && (
+                    <span className="text-xl font-medium text-black ml-1">
+                      {metric.unit}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Description and API endpoint */}
+              <div className="text-xs text-gray-600 space-y-2">
+                <p>{metric.description}</p>
+                <p className="text-gray-500 italic">
+                  Endpoint: {metric.apiEndpoint}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Refresh Button */}
+        <div className="flex gap-4 mb-12">
+          <button
+            onClick={fetchMetrics}
+            disabled={loading}
+            className="px-8 py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors disabled:opacity-50"
+          >
+            {loading ? "Refreshing..." : "Refresh Metrics"}
+          </button>
+        </div>
+      </div>
+
+      {/* Bottom Right Image - Portrait */}
+      <div className="fixed bottom-0 right-0 w-64 h-auto md:w-80 pointer-events-none opacity-90">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets%2Fe823c8e023884dc69249e889278d0a1d%2Fa85e6212ad1e40728f4b25b9fbfa330b?format=webp&width=400"
+          alt="OneByE"
+          className="w-full h-full object-cover"
+        />
       </div>
     </div>
   );
