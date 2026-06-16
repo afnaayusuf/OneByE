@@ -10,6 +10,7 @@ interface Metric {
 }
 
 export default function Index() {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [metrics, setMetrics] = useState<Metric[]>([
     {
       id: "volume",
@@ -95,47 +96,58 @@ export default function Index() {
     <div className="min-h-screen bg-white p-8 md:p-12 font-dm-sans relative overflow-hidden flex flex-col">
       {/* Main content wrapper */}
       <div className="max-w-7xl mx-auto w-full">
-        <h1 className="text-5xl md:text-6xl font-bold mt-8 mb-24 text-black text-center">
+        <h1 className="text-5xl md:text-6xl font-bold mt-8 mb-24 text-black text-center animate-typing">
           One<span className="font-thin italic">By</span> E.
         </h1>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16 mt-16 group/grid">
-          {metrics.map((metric, index) => (
-            <div
-              key={metric.id}
-              className={`bg-[#DADADA] rounded-2xl p-8 flex flex-col h-80 justify-between text-center transition-all duration-300 ease-out hover:bg-black hover:text-white cursor-pointer group
-              ${
-                index % 2 === 0
-                  ? "group-hover:translate-x-1"
-                  : "group-hover:translate-x-1"
-              }`}
-            >
-              {/* Label */}
-              <h2 className="text-2xl font-medium transition-colors duration-300 group-hover:text-white">
-                {metric.label}
-              </h2>
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16 mt-16">
+          {metrics.map((metric, index) => {
+            const isHovered = hoveredIndex === index;
+            const moveLeft = hoveredIndex !== null && index < hoveredIndex;
+            const moveRight = hoveredIndex !== null && index > hoveredIndex;
 
-              {/* Value - centered */}
-              <div className="flex items-center justify-center">
-                <div className="inline-block border rounded-lg px-4 py-2 border-black group-hover:border-white transition-colors duration-300">
-                  <span className="text-2xl font-bold transition-colors duration-300 group-hover:text-white">
-                    {metric.value}
-                  </span>
-                  {metric.unit && (
-                    <span className="text-lg font-medium ml-1 transition-colors duration-300 group-hover:text-white">
-                      {metric.unit}
+            return (
+              <div
+                key={metric.id}
+                onMouseEnter={() => setHoveredIndex(index)}
+                onMouseLeave={() => setHoveredIndex(null)}
+                className={`bg-[#DADADA] rounded-2xl p-8 flex flex-col h-80 justify-between text-center transition-all duration-300 ease-out cursor-pointer
+                ${isHovered ? "bg-black text-white" : ""}
+                ${moveLeft ? "-translate-x-2" : ""}
+                ${moveRight ? "translate-x-2" : ""}
+                `}
+              >
+                {/* Label */}
+                <h2 className={`text-2xl font-medium transition-colors duration-300 ${isHovered ? "text-white" : "text-black"}`}>
+                  {metric.label}
+                </h2>
+
+                {/* Value - centered */}
+                <div className="flex items-center justify-center">
+                  <div className={`inline-block border rounded-lg px-4 py-2 transition-colors duration-300 ${
+                    isHovered ? "border-white bg-black" : "border-black bg-transparent"
+                  }`}>
+                    <span className={`text-2xl font-bold transition-colors duration-300 ${isHovered ? "text-white" : "text-black"}`}>
+                      {metric.value}
                     </span>
-                  )}
+                    {metric.unit && (
+                      <span className={`text-lg font-medium ml-1 transition-colors duration-300 ${isHovered ? "text-white" : "text-black"}`}>
+                        {metric.unit}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {/* Description only */}
+                <div className={`text-xs px-2 transition-colors duration-300 ${
+                  isHovered ? "text-gray-200" : "text-gray-700"
+                }`}>
+                  <p>{metric.description}</p>
                 </div>
               </div>
-
-              {/* Description only */}
-              <div className="text-xs px-2 text-gray-700 group-hover:text-gray-200 transition-colors duration-300">
-                <p>{metric.description}</p>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         {/* Refresh Button */}
