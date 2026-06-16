@@ -104,21 +104,21 @@ export default function Index() {
           {metrics.map((metric) => (
             <div
               key={metric.id}
-              className="bg-[#515151] rounded-2xl p-8 flex flex-col h-64 hover:opacity-90 transition-opacity items-center justify-center text-center"
+              className="bg-[#DADADA] rounded-2xl p-8 flex flex-col h-64 hover:opacity-90 transition-opacity items-center justify-center text-center"
             >
               {/* Label */}
-              <h2 className="text-base font-medium text-white mb-8">
+              <h2 className="text-base font-medium text-black mb-8">
                 {metric.label}
               </h2>
 
               {/* Value */}
               <div className="mb-8">
-                <div className="inline-block border-2 border-white rounded-lg px-4 py-2">
-                  <span className="text-2xl font-bold text-white">
+                <div className="inline-block border border-black rounded-lg px-4 py-2">
+                  <span className="text-2xl font-bold text-black">
                     {metric.value}
                   </span>
                   {metric.unit && (
-                    <span className="text-lg font-medium text-white ml-1">
+                    <span className="text-lg font-medium text-black ml-1">
                       {metric.unit}
                     </span>
                   )}
@@ -126,7 +126,7 @@ export default function Index() {
               </div>
 
               {/* Description only */}
-              <div className="text-xs text-gray-300 px-2">
+              <div className="text-xs text-gray-700 px-2">
                 <p>{metric.description}</p>
               </div>
             </div>
