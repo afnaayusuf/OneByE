@@ -95,8 +95,8 @@ export default function Index() {
     <div className="min-h-screen bg-white p-8 md:p-12 font-dm-sans relative overflow-hidden flex flex-col">
       {/* Main content wrapper */}
       <div className="max-w-7xl mx-auto w-full">
-        <h1 className="text-4xl md:text-5xl font-bold mt-8 mb-24 text-black text-center">
-          One<span className="font-normal">By</span>E.
+        <h1 className="text-5xl md:text-6xl font-bold mt-8 mb-24 text-black text-center">
+          One<span className="font-light">By</span>E.
         </h1>
 
         {/* Metrics Grid */}
@@ -107,7 +107,7 @@ export default function Index() {
               className="bg-[#DADADA] rounded-2xl p-8 flex flex-col h-80 hover:opacity-90 transition-opacity justify-between text-center"
             >
               {/* Label */}
-              <h2 className="text-base font-medium text-black">
+              <h2 className="text-lg font-medium text-black">
                 {metric.label}
               </h2>
 
