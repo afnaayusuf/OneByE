@@ -95,30 +95,30 @@ export default function Index() {
     <div className="min-h-screen bg-white p-8 md:p-12 font-dm-sans relative overflow-hidden flex flex-col">
       {/* Main content wrapper */}
       <div className="max-w-7xl mx-auto w-full">
-        <h1 className="text-4xl md:text-5xl font-bold mt-8 mb-16 text-black text-center">
+        <h1 className="text-4xl md:text-5xl font-bold mt-8 mb-24 text-black text-center">
           One<span className="font-normal">By</span>E.
         </h1>
 
         {/* Metrics Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16 mt-8">
           {metrics.map((metric) => (
             <div
               key={metric.id}
-              className="bg-gray-100 rounded-2xl p-6 flex flex-col h-64 hover:bg-gray-150 transition-colors items-center justify-center text-center"
+              className="bg-[#515151] rounded-2xl p-8 flex flex-col h-64 hover:opacity-90 transition-opacity items-center justify-center text-center"
             >
               {/* Label */}
-              <h2 className="text-base font-medium text-black mb-4">
+              <h2 className="text-base font-medium text-white mb-8">
                 {metric.label}
               </h2>
 
               {/* Value */}
-              <div className="mb-4">
-                <div className="inline-block border-2 border-black rounded-lg px-4 py-2">
-                  <span className="text-2xl font-bold text-black">
+              <div className="mb-8">
+                <div className="inline-block border-2 border-white rounded-lg px-4 py-2">
+                  <span className="text-2xl font-bold text-white">
                     {metric.value}
                   </span>
                   {metric.unit && (
-                    <span className="text-lg font-medium text-black ml-1">
+                    <span className="text-lg font-medium text-white ml-1">
                       {metric.unit}
                     </span>
                   )}
@@ -126,7 +126,7 @@ export default function Index() {
               </div>
 
               {/* Description only */}
-              <div className="text-xs text-gray-600 px-2">
+              <div className="text-xs text-gray-300 px-2">
                 <p>{metric.description}</p>
               </div>
             </div>
@@ -134,7 +134,7 @@ export default function Index() {
         </div>
 
         {/* Refresh Button */}
-        <div className="flex gap-4 mt-20 justify-center">
+        <div className="flex gap-4 mt-32 justify-center">
           <button
             onClick={fetchMetrics}
             disabled={loading}
