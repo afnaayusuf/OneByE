@@ -200,6 +200,15 @@ export default function Index() {
             );
           })}
         </div>
+
+        <div className="flex justify-center mt-8 mb-12">
+          <button
+            onClick={fetchMetrics}
+            className="px-10 py-3 bg-black text-white rounded-lg font-medium font-dm-sans text-base hover:bg-gray-800 active:bg-gray-900 transition-colors"
+          >
+            Refresh
+          </button>
+        </div>
       </div>
 
       <div className="fixed bottom-0 right-0 pointer-events-none opacity-90 w-[25vw] min-w-[120px] max-w-[320px]">
