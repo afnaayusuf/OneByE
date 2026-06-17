@@ -1,4 +1,6 @@
 {
+  "framework": "vite",
+  "installCommand": "pnpm install",
   "buildCommand": "pnpm build:client",
   "outputDirectory": "dist/spa",
   "rewrites": [
