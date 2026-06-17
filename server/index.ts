@@ -2,15 +2,7 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
-
-const metricsStore: Record<string, number> = {
-  volume: 57,
-  pressure: 13.4,
-  vibration: 72.6,
-  battery: 84,
-  network: 23,
-  gas: 1380,
-};
+import { neon } from "@neondatabase/serverless";
 
 export function createServer() {
   const app = express();
@@ -26,26 +18,51 @@ export function createServer() {
 
   app.get("/api/demo", handleDemo);
 
-  app.get("/api/metrics", (_req, res) => {
-    res.json(metricsStore);
-  });
-
-  app.post("/api/metrics", (req, res) => {
-    const updates = req.body as Record<string, number>;
-    for (const [key, val] of Object.entries(updates)) {
-      if (key in metricsStore && typeof val === "number") {
-        metricsStore[key] = val;
+  app.get("/api/metrics", async (_req, res) => {
+    try {
+      const sql = neon(process.env.DATABASE_URL!);
+      const rows = await sql`SELECT name, value FROM metrics`;
+      const result: Record<string, number> = {};
+      for (const row of rows) {
+        result[row.name] = row.value;
       }
+      res.json(result);
+    } catch (e) {
+      res.status(500).json({ error: "db error" });
     }
-    res.json(metricsStore);
   });
 
-  app.get("/api/metrics/:id", (req, res) => {
-    const id = req.params.id;
-    if (id in metricsStore) {
-      res.json({ value: metricsStore[id] });
-    } else {
-      res.status(404).json({ error: "metric not found" });
+  app.post("/api/metrics", async (req, res) => {
+    try {
+      const sql = neon(process.env.DATABASE_URL!);
+      const updates = req.body as Record<string, number>;
+      for (const [name, value] of Object.entries(updates)) {
+        if (typeof value === "number") {
+          await sql`UPDATE metrics SET value = ${value}, updated_at = now() WHERE name = ${name}`;
+        }
+      }
+      const rows = await sql`SELECT name, value FROM metrics`;
+      const result: Record<string, number> = {};
+      for (const row of rows) {
+        result[row.name] = row.value;
+      }
+      res.json(result);
+    } catch (e) {
+      res.status(500).json({ error: "db error" });
+    }
+  });
+
+  app.get("/api/metrics/:id", async (req, res) => {
+    try {
+      const sql = neon(process.env.DATABASE_URL!);
+      const rows = await sql`SELECT value FROM metrics WHERE name = ${req.params.id}`;
+      if (rows.length > 0) {
+        res.json({ value: rows[0].value });
+      } else {
+        res.status(404).json({ error: "metric not found" });
+      }
+    } catch (e) {
+      res.status(500).json({ error: "db error" });
     }
   });
 
