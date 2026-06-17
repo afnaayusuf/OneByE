@@ -120,6 +120,8 @@ export default function Index() {
     METRIC_DEFS.map((d) => ({ ...d, value: "--" }))
   );
 
+  const [refreshing, setRefreshing] = useState(false);
+
   const fetchMetrics = useCallback(async () => {
     try {
       const res = await fetch("/api/metrics");
@@ -136,6 +138,14 @@ export default function Index() {
       // keep existing values
     }
   }, []);
+
+  const handleRefresh = useCallback(async () => {
+    setRefreshing(true);
+    setMetrics(METRIC_DEFS.map((d) => ({ ...d, value: "--" })));
+    await new Promise((r) => setTimeout(r, 600));
+    await fetchMetrics();
+    setRefreshing(false);
+  }, [fetchMetrics]);
 
   useEffect(() => {
     fetchMetrics();
@@ -203,10 +213,16 @@ export default function Index() {
 
         <div className="flex justify-center mt-8 mb-12">
           <button
-            onClick={fetchMetrics}
-            className="px-10 py-3 bg-black text-white rounded-lg font-medium font-dm-sans text-base hover:bg-gray-800 active:bg-gray-900 transition-colors"
+            onClick={handleRefresh}
+            disabled={refreshing}
+            className={`px-10 py-3 rounded-lg font-medium font-dm-sans text-base transition-all duration-200 border
+              ${refreshing
+                ? "bg-white text-black border-black"
+                : "bg-black text-white border-black hover:scale-[1.03] active:bg-white active:text-black active:border-black"
+              }`}
+            style={{ borderWidth: 1 }}
           >
-            Refresh
+            {refreshing ? "Refreshing..." : "Refresh"}
           </button>
         </div>
       </div>
