@@ -141,9 +141,8 @@ export default function Index() {
 
   const handleRefresh = useCallback(async () => {
     setRefreshing(true);
-    setMetrics(METRIC_DEFS.map((d) => ({ ...d, value: "--" })));
-    await new Promise((r) => setTimeout(r, 600));
     await fetchMetrics();
+    await new Promise((r) => setTimeout(r, 400));
     setRefreshing(false);
   }, [fetchMetrics]);
 
@@ -215,14 +214,14 @@ export default function Index() {
           <button
             onClick={handleRefresh}
             disabled={refreshing}
-            className={`px-10 py-3 rounded-lg font-medium font-dm-sans text-base transition-all duration-200 border
+            className={`py-3 rounded-lg font-medium font-dm-sans text-base transition-all duration-200 border
               ${refreshing
-                ? "bg-white text-black border-black"
-                : "bg-black text-white border-black hover:scale-[1.03] active:bg-white active:text-black active:border-black"
+                ? "bg-white text-black border-black px-14"
+                : "bg-black text-white border-black px-10 hover:scale-[1.03] active:bg-white active:text-black active:border-black active:px-14"
               }`}
             style={{ borderWidth: 1 }}
           >
-            {refreshing ? "Refreshing..." : "Refresh"}
+            Refresh
           </button>
         </div>
       </div>
