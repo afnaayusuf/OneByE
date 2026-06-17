@@ -182,11 +182,11 @@ export default function Index() {
         </div>
       </div>
 
-      <div className="fixed bottom-0 right-0 w-64 h-auto md:w-80 pointer-events-none opacity-90">
+      <div className="fixed bottom-0 right-0 pointer-events-none opacity-90 w-[25vw] min-w-[120px] max-w-[320px]">
         <img
           src="https://cdn.builder.io/api/v1/image/assets%2Fe823c8e023884dc69249e889278d0a1d%2Fa85e6212ad1e40728f4b25b9fbfa330b?format=webp&width=400"
           alt="OneByE"
-          className="w-full h-full object-cover"
+          className="w-full h-auto object-cover"
         />
       </div>
     </div>
