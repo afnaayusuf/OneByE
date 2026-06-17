@@ -148,8 +148,6 @@ export default function Index() {
 
   useEffect(() => {
     fetchMetrics();
-    const id = setInterval(fetchMetrics, 2000);
-    return () => clearInterval(id);
   }, [fetchMetrics]);
 
   return (
@@ -213,7 +211,6 @@ export default function Index() {
         <div className="flex justify-center mt-8 mb-12">
           <button
             onClick={handleRefresh}
-            disabled={refreshing}
             className={`py-3 rounded-lg font-medium font-dm-sans text-base transition-all duration-200 border
               ${refreshing
                 ? "bg-white text-black border-black px-14"
