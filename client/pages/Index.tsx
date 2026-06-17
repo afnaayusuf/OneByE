@@ -1,6 +1,22 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import RollingNumber from "../components/RollingNumber";
 
+function useColumns() {
+  const [cols, setCols] = useState(6);
+  useEffect(() => {
+    const update = () => {
+      const w = window.innerWidth;
+      if (w >= 1024) setCols(6);
+      else if (w >= 640) setCols(3);
+      else setCols(2);
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+  return cols;
+}
+
 interface Metric {
   id: string;
   label: string;
@@ -98,6 +114,7 @@ function GlitchLogo() {
 
 export default function Index() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const cols = useColumns();
 
   const [metrics, setMetrics] = useState<Metric[]>(
     METRIC_DEFS.map((d) => ({ ...d, value: "--" }))
@@ -136,8 +153,11 @@ export default function Index() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-6 mb-16 mt-16">
           {metrics.map((metric, index) => {
             const isHovered = hoveredIndex === index;
-            const moveLeft = hoveredIndex !== null && index < hoveredIndex;
-            const moveRight = hoveredIndex !== null && index > hoveredIndex;
+            const sameRow =
+              hoveredIndex !== null &&
+              Math.floor(index / cols) === Math.floor(hoveredIndex / cols);
+            const moveLeft = sameRow && index < hoveredIndex;
+            const moveRight = sameRow && index > hoveredIndex;
 
             return (
               <div
